@@ -1,3 +1,43 @@
+# Submission Notes from Cameron Evans
+
+The main branch of this fork implements the dividebyzero-checker logic for problem 30 of ["Notes on Program Analysis"](
+https://homes.cs.washington.edu/~mernst/pubs/program-analysis-book.pdf). It uses the following lattice.
+
+```
+                                __ ⊤ __
+                               /   |   \
+                              /    |    \
+                           <=0    !0     >=0
+                             | \ /   \ / |
+                             |  X     X  |
+                             | / \   / \ |
+                            <0     0     >0
+                              \    |    /
+                               \__ | __/
+                                   ⊥                    
+```
+
+I experimented with a simpleter alternative to this lattice with just `<0`, `0`, and `>0` nodes.
+
+```
+                                __ ⊤ __
+                               /   |   \
+                              /    |    \
+                            <0     0     >0
+                              \    |    /
+                               \__ | __/
+                                   ⊥   
+```
+While perfectly fine, I found simple divide-by-zero cases I could not detect.
+```
+if (x >= 0) {
+    // The simplified lattice categorizes 'x' as ⊤ and would unfortunately throw an error here.
+    int z = 1 / (x + 1);
+}
+```
+
+All arithmetic combinations are tested in Foo.java.
+
 # What is this repository
 
 This repository contains a template for an abstract interpretation implementation

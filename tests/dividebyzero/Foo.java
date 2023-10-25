@@ -87,4 +87,317 @@ class Foo {
         // :: error: divide.by.zero
         int k = 1/z;
     }
+
+    public static void plus(int x, int y) {
+        if (x < 0) {
+            if (y < 0) { int z = 1 / (x + y); }
+            if (y <= 0) { int z = 1 / (x + y); }
+            if (y == 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x + y); }
+        }
+        if (x <= 0) {
+            if (y < 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x + y); }
+        }
+        if (x == 0) {
+            if (y < 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x + y); }
+            if (y > 0) { int z = 1 / (x + y); }
+            if (y != 0) { int z = 1 / (x + y); }
+        }
+        if (x >= 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x + y); }
+            if (y > 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x + y); }
+        }
+        if (x > 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x + y); }
+            if (y == 0) { int z = 1 / (x + y); }
+            if (y >= 0) { int z = 1 / (x + y); }
+            if (y > 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x + y); }
+        }
+        if (x != 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x + y); }
+            if (y == 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x + y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x + y); }
+        }
+    }
+
+    public static void minus(int x, int y) {
+        if (x < 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x - y); }
+            if (y == 0) { int z = 1 / (x - y); }
+            if (y >= 0) { int z = 1 / (x - y); }
+            if (y > 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x - y); }
+          }
+        if (x <= 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x - y); }
+            if (y > 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x - y); }
+        }
+        if (x == 0) {
+            if (y < 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x - y); }
+            if (y > 0) { int z = 1 / (x - y); }
+            if (y != 0) { int z = 1 / (x - y); }
+        }
+        if (x >= 0) {
+            if (y < 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x - y); }
+        }
+        if (x > 0) {
+            if (y < 0) { int z = 1 / (x - y); }
+            if (y <= 0) { int z = 1 / (x - y); }
+            if (y == 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x - y); }
+        }
+        if (x != 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x - y); }
+            if (y == 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x - y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x - y); }
+        }
+    }
+    public static void times(int x, int y) {
+        if (x < 0) {
+            if (y < 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x * y); }
+            if (y > 0) { int z = 1 / (x * y); }
+            if (y != 0) { int z = 1 / (x * y); }
+        }
+        if (x <= 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x * y); }
+        }
+        if (x == 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x * y); }
+        }
+        if (x >= 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x * y); }
+        }
+        if (x > 0) {
+            if (y < 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x * y); }
+            if (y > 0) { int z = 1 / (x * y); }
+            if (y != 0) { int z = 1 / (x * y); }
+        }
+        if (x != 0) {
+            if (y < 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x * y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x * y); }
+            if (y > 0) { int z = 1 / (x * y); }
+            if (y != 0) { int z = 1 / (x * y); }
+        }
+    }
+    public static void divide(int x, int y) {
+        if (x < 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x / y); }
+        }
+        if (x <= 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x / y); }
+        }
+        if (x == 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x / y); }
+        }
+        if (x >= 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x / y); }
+        }
+        if (x > 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x / y); }
+        }
+        if (x != 0) {
+            // :: error: divide.by.zero
+            if (y < 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y <= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y == 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y >= 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y > 0) { int z = 1 / (x / y); }
+            // :: error: divide.by.zero
+            if (y != 0) { int z = 1 / (x / y); }
+        }
+    }
 }

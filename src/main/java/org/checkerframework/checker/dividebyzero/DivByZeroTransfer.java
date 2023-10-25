@@ -40,6 +40,37 @@ public class DivByZeroTransfer extends CFTransfer {
         /** % */ MOD
     }
 
+    enum Qual {
+        BOTTOM,
+        LT_ZERO,
+        LE_ZERO,
+        ZERO,
+        GE_ZERO,
+        GT_ZERO,
+        NON_ZERO,
+        TOP
+    }
+
+    private Qual qualOfAnnotationMirror(AnnotationMirror arg) {
+        if (equal(arg, bottom())) {
+            return Qual.BOTTOM;
+        } else if (equal(arg, ltZero())) {
+            return Qual.LT_ZERO;
+        } else if (equal(arg, leZero())) {
+            return Qual.LE_ZERO;
+        } else if (equal(arg, zero())) {
+            return Qual.ZERO;
+        } else if (equal(arg, geZero())) {
+            return Qual.GE_ZERO;
+        } else if (equal(arg, gtZero())) {
+            return Qual.GT_ZERO;
+        } else if (equal(arg, nonZero())) {
+            return Qual.NON_ZERO;
+        } else {
+            return Qual.TOP;
+        }
+    }
+
     // ========================================================================
     // Transfer functions to implement
 
@@ -71,8 +102,64 @@ public class DivByZeroTransfer extends CFTransfer {
             Comparison operator,
             AnnotationMirror lhs,
             AnnotationMirror rhs) {
-        // TODO
-        return lhs;
+
+        switch (operator) {
+            case LT: switch (qualOfAnnotationMirror(rhs)) {
+                case LT_ZERO:
+                case LE_ZERO:
+                case ZERO: return ltZero();
+                case GE_ZERO:
+                case GT_ZERO:
+                case NON_ZERO:
+                default: return lhs;
+            }
+            case GT: switch (qualOfAnnotationMirror(rhs)) {
+                case LT_ZERO:
+                case LE_ZERO: return lhs;
+                case ZERO:
+                case GE_ZERO:
+                case GT_ZERO: return gtZero();
+                case NON_ZERO:
+                default: return lhs;
+            }
+            case LE: switch (qualOfAnnotationMirror(rhs)) {
+                case LT_ZERO: return ltZero();
+                case LE_ZERO:
+                case ZERO: return glb(lhs, leZero());
+                case GE_ZERO:
+                case GT_ZERO:
+                case NON_ZERO:
+                default: return lhs;
+            }
+            case GE: switch (qualOfAnnotationMirror(rhs)) {
+                case LT_ZERO:
+                case LE_ZERO: return top();
+                case ZERO:
+                case GE_ZERO: return glb(lhs, geZero());
+                case GT_ZERO: return gtZero();
+                case NON_ZERO:
+                default: return lhs;
+            }
+            case NE: switch (qualOfAnnotationMirror(rhs)) {
+                case LT_ZERO:
+                case LE_ZERO: return lhs;
+                case ZERO: return nonZero();
+                case GE_ZERO:
+                case GT_ZERO:
+                case NON_ZERO:
+                default: return lhs;
+            }
+            case EQ: switch (qualOfAnnotationMirror(rhs)) {
+                case LT_ZERO: return ltZero();
+                case LE_ZERO: return glb(lhs, leZero());
+                case ZERO: return zero();
+                case GE_ZERO: return glb(lhs, geZero());
+                case GT_ZERO: return gtZero();
+                case NON_ZERO: return glb(lhs, nonZero());
+                default: return lhs;
+            }
+            default: return lhs;
+        }
     }
 
     /**
@@ -93,7 +180,197 @@ public class DivByZeroTransfer extends CFTransfer {
             BinaryOperator operator,
             AnnotationMirror lhs,
             AnnotationMirror rhs) {
-        // TODO
+        switch (operator) {
+            case PLUS: switch (qualOfAnnotationMirror(lhs)) {
+                case LT_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO:
+                    case LE_ZERO:
+                    case ZERO: return ltZero();
+                    case GE_ZERO:
+                    case GT_ZERO:
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case LE_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO: return ltZero();
+                    case LE_ZERO:
+                    case ZERO: return leZero();
+                    case GE_ZERO:
+                    case GT_ZERO:
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case ZERO: return rhs;
+                case GE_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO:
+                    case LE_ZERO: return top();
+                    case ZERO:
+                    case GE_ZERO: return geZero();
+                    case GT_ZERO: return gtZero();
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case GT_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO:
+                    case LE_ZERO: return top();
+                    case ZERO:
+                    case GE_ZERO:
+                    case GT_ZERO: return gtZero();
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case NON_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO:
+                    case LE_ZERO: return top();
+                    case ZERO: return nonZero();
+                    case GE_ZERO:
+                    case GT_ZERO:
+                    case NON_ZERO:
+                    default: return top();
+                }
+                default: return top();
+            }
+            case MINUS: switch (qualOfAnnotationMirror(lhs)) {
+                case LT_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO:
+                    case LE_ZERO: return top();
+                    case ZERO:
+                    case GE_ZERO:
+                    case GT_ZERO: return ltZero();
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case LE_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO:
+                    case LE_ZERO: return top();
+                    case ZERO:
+                    case GE_ZERO: return leZero();
+                    case GT_ZERO: return ltZero();
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO: return gtZero();
+                    case LE_ZERO: return geZero();
+                    case ZERO: return zero();
+                    case GE_ZERO: return leZero();
+                    case GT_ZERO: return ltZero();
+                    case NON_ZERO: return nonZero();
+                    default: return top();
+                }
+                case GE_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO: return gtZero();
+                    case LE_ZERO: return geZero();
+                    case ZERO: return geZero();
+                    case GE_ZERO:
+                    case GT_ZERO:
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case GT_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO:
+                    case LE_ZERO:
+                    case ZERO: return gtZero();
+                    case GE_ZERO:
+                    case GT_ZERO:
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case NON_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO:
+                    case LE_ZERO: return top();
+                    case ZERO: return nonZero();
+                    case GE_ZERO:
+                    case GT_ZERO:
+                    case NON_ZERO:
+                    default: return top();
+                }
+                default: return top();
+            }
+            case TIMES: switch (qualOfAnnotationMirror(lhs)) {
+                case LT_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO: return gtZero();
+                    case LE_ZERO: return geZero();
+                    case ZERO: return zero();
+                    case GE_ZERO: return leZero();
+                    case GT_ZERO: return ltZero();
+                    case NON_ZERO: return nonZero();
+                    default: return top();
+                }
+                case LE_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO: return geZero();
+                    case LE_ZERO:
+                    case ZERO: return zero();
+                    case GE_ZERO:
+                    case GT_ZERO: return leZero();
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case ZERO: return zero();
+                case GE_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO:
+                    case LE_ZERO: return leZero();
+                    case ZERO: return zero();
+                    case GE_ZERO:
+                    case GT_ZERO: return geZero();
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case GT_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO: return ltZero();
+                    case LE_ZERO: return leZero();
+                    case ZERO: return zero();
+                    case GE_ZERO: return geZero();
+                    case GT_ZERO: return gtZero();
+                    case NON_ZERO: return nonZero();
+                    default: return top();
+                }
+                case NON_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO: return nonZero();
+                    case LE_ZERO: return top();
+                    case ZERO: return zero();
+                    case GE_ZERO: return top();
+                    case GT_ZERO:
+                    case NON_ZERO: return nonZero();
+                    default: return top();
+                }
+                default: return top();
+            }
+            case DIVIDE:
+            case MOD: switch (qualOfAnnotationMirror(lhs)) {
+                case LT_ZERO:
+                case LE_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO: return geZero();
+                    case LE_ZERO:
+                    case ZERO:
+                    case GE_ZERO:return bottom();
+                    case GT_ZERO: return leZero();
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO: return zero();
+                    case LE_ZERO:
+                    case ZERO:
+                    case GE_ZERO: return bottom();
+                    case GT_ZERO: return zero();
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case GE_ZERO:
+                case GT_ZERO: switch (qualOfAnnotationMirror(rhs)) {
+                    case LT_ZERO: return leZero();
+                    case LE_ZERO:
+                    case ZERO:
+                    case GE_ZERO: return bottom();
+                    case GT_ZERO: return geZero();
+                    case NON_ZERO:
+                    default: return top();
+                }
+                case NON_ZERO:
+                default: return top();
+            }
+        }
         return top();
     }
 
@@ -103,6 +380,30 @@ public class DivByZeroTransfer extends CFTransfer {
     /** Get the top of the lattice */
     private AnnotationMirror top() {
         return analysis.getTypeFactory().getQualifierHierarchy().getTopAnnotations().iterator().next();
+    }
+
+    private AnnotationMirror nonZero() {
+        return reflect(NonZero.class);
+    }
+
+    private AnnotationMirror geZero() {
+        return reflect(GEZero.class);
+    }
+
+    private AnnotationMirror gtZero() {
+        return reflect(GTZero.class);
+    }
+
+    private AnnotationMirror leZero() {
+        return reflect(LEZero.class);
+    }
+
+    private AnnotationMirror ltZero() {
+        return reflect(LTZero.class);
+    }
+
+    private AnnotationMirror zero() {
+        return reflect(Zero.class);
     }
 
     /** Get the bottom of the lattice */
